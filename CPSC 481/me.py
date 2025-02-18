@@ -28,5 +28,5 @@ print(firstThing)
 for thing in favoriteThings:
     print(thing)
 
-number = list(range(10))
-print(number)
+numbers = list(range(10))
+print(numbers)
