@@ -47,10 +47,11 @@ class MissCannibalsVariant(Problem):
                     possible_actions.remove(action)
         
         """2nd: Remove actions that would make MissonariesOnRightBank < CannibalsOnRightBank or MissionariesOnLeftBank < CannibalsOnLeftBank"""
+        """The only time its okay that M < C on either bank is that after the action M == 0"""
         if boatIsAtLeftBank:
             for action in possible_actions[:]:
                 """Checking if the number of cannibals to be sent to the right bank will out number the missionaries on the right bank but its okay if missionaries == 0 at right bank after action"""
-                if action.count('C') + cannibalsOnRightBank > missionariesOnRightBank + action.count('M') and missionariesOnRightBank!= 0 and action in possible_actions:
+                if action.count('C') + cannibalsOnRightBank > missionariesOnRightBank + action.count('M') and missionariesOnRightBank + action.count('M') != 0 and action in possible_actions:
                     possible_actions.remove(action)
                 """Checking if the number of missionaries remaining on the left bank will be outnumbered by the cannibals on the left bank, but its okay if missionaries == 0 after action"""
                 if missionariesOnLeftBank - action.count('M') < cannibalsOnLeftBank - action.count('C') and missionariesOnLeftBank - action.count('M') != 0 and action in possible_actions:
@@ -58,7 +59,7 @@ class MissCannibalsVariant(Problem):
         else:
             for action in possible_actions[:]:
                 """Checking to see if the cannibals to be sent back to the left bank will out number the missionaries on the left bank"""
-                if (action.count('C') + cannibalsOnLeftBank) > (missionariesOnLeftBank + action.count('M')) and missionariesOnLeftBank != 0 and action in possible_actions:
+                if (action.count('C') + cannibalsOnLeftBank) > (missionariesOnLeftBank + action.count('M')) and missionariesOnLeftBank + action.count('M') != 0 and action in possible_actions:
                     possible_actions.remove(action)
                 """Checking to see if the number missionaries remaining on the right bank will be outnumbered by the cannibals on the right bank"""
                 if (missionariesOnRightBank - action.count('M') < cannibalsOnRightBank - action.count('C')) and missionariesOnRightBank - action.count('M') != 0 and action in possible_actions:
@@ -84,10 +85,13 @@ class MissCannibalsVariant(Problem):
 
 if __name__ == '__main__':
     mc = MissCannibalsVariant(4,4)
-    #print(mc.actions((3, 3, True))) # Test your code as you develop! This should return  ['MC', 'MMM']
+    
+    # print(mc.result((0, 3, True), 'CCC'))
+    # print(mc.actions((4,2,True)))
+    
 
-    # path = depth_first_graph_search(mc).solution()
-    # print(path)
+    path = depth_first_graph_search(mc).solution()
+    print(path)
     path = breadth_first_graph_search(mc).solution()
     print(path)
 
